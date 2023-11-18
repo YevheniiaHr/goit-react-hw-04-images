@@ -15,7 +15,7 @@ export const App = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = query => {
-    if (searchItems === query) {
+    if (searchItems === query && searchItems !== '') {
       return toast.error(`You are already browsing ${query}`);
     }
     setSearchItems(query);
@@ -24,7 +24,7 @@ export const App = () => {
   };
 
   useEffect(() => {
-    if (searchItems === '') {
+    if (!searchItems) {
       return;
     }
     async function renderImages() {

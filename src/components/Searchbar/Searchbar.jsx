@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import {
   SearchBarHeader,
@@ -7,39 +7,36 @@ import {
   SearchButton,
 } from './Searchbar.styled';
 
-export class SearchBar extends Component {
-  state = {
-    searchItem: '',
-    input: '',
-  };
+export const SearchBar = ({ onSubmit }) => {
+  const [searchItem, setSearchItem] = useState('');
+  const [input, setInput] = useState('');
 
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    // console.log(e.target);
-    const searchQuery = e.target.elements.searchItem.value.trim();
-    this.props.onSubmit(searchQuery);
-    // console.log(searchQuery);
+
+    setSearchItem(input.trim());
+    onSubmit(searchItem);
+
     e.target.reset();
   };
-  handleChange = e => {
-    this.setState({ input: e.target.value });
+  const handleChange = e => {
+    setInput(e.target.value);
   };
-  render() {
-    return (
-      <SearchBarHeader>
-        <SearchForm onSubmit={this.handleSubmit}>
-          <SearchButton>
-            <BsSearch />
-          </SearchButton>
-          <SearchInput
-            name="searchItem"
-            type="text"
-            id="search"
-            value={this.state.input}
-            onChange={this.handleChange}
-          />
-        </SearchForm>
-      </SearchBarHeader>
-    );
-  }
-}
+
+  return (
+    <SearchBarHeader>
+      <SearchForm onSubmit={handleSubmit}>
+        <SearchButton>
+          <BsSearch />
+        </SearchButton>
+        <SearchInput
+          name="searchItem"
+          type="text"
+          id="search"
+          value={input}
+          onChange={handleChange}
+        />
+      </SearchForm>
+    </SearchBarHeader>
+  );
+};
